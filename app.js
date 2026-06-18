@@ -212,7 +212,7 @@
   /* ============================================================
      STATE
      ============================================================ */
-  let state = { players: [], lang: "it", session: DEFAULT_SESSION, collapsedStats: false, clearedAt: 0, tombstones: {} };
+  let state = { players: [], lang: "it", session: DEFAULT_SESSION, collapsedStats: true, clearedAt: 0, tombstones: {} };
   let ui = { cat: "overall", time: "all", detailId: null };
   let pendingAvatar = null;
 
@@ -258,7 +258,7 @@
       state.lang = localStorage.getItem(APP + ":lang") || "it";
       state.session = localStorage.getItem(APP + ":current") || DEFAULT_SESSION;
       const u = JSON.parse(localStorage.getItem(APP + ":ui") || "{}");
-      state.collapsedStats = !!u.collapsedStats;
+      state.collapsedStats = u.collapsedStats !== undefined ? !!u.collapsedStats : true; // closed by default
     } catch (_) {}
     if (!I18N[state.lang]) state.lang = "it";
   }
@@ -517,14 +517,17 @@
     return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   }
   function drunkify(text) {
-    let out = "", i = 0;
-    for (const ch of String(text)) {
-      if (ch === " ") { out += '<span class="dl dl--sp"> </span>'; continue; }
-      const e = escAttr(ch);
-      out += `<span class="dl" data-ch="${e}" style="font-size:${DZ[i % DZ.length]}em;transform:translateY(${DY[i % DY.length]}em) rotate(${DR[i % DR.length]}deg)">${e}</span>`;
-      i++;
-    }
-    return out;
+    let i = 0;
+    // group letters per word so line breaks only happen at spaces (never mid-word)
+    return String(text).split(/\s+/).filter(Boolean).map((word) => {
+      let inner = "";
+      for (const ch of word) {
+        const e = escAttr(ch);
+        inner += `<span class="dl" data-ch="${e}" style="font-size:${DZ[i % DZ.length]}em;transform:translateY(${DY[i % DY.length]}em) rotate(${DR[i % DR.length]}deg)">${e}</span>`;
+        i++;
+      }
+      return `<span class="dword">${inner}</span>`;
+    }).join(" ");
   }
   function renderDrunk(el) {
     const txt = el.getAttribute("data-text") != null ? el.getAttribute("data-text") : el.textContent;

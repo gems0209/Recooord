@@ -55,6 +55,7 @@ ol,ul{ list-style:none; }
    DRUNK DOUBLE-VISION — per letter, far ghosts, size disproportion
    ============================================================ */
 .drunk{ display:inline-block; }
+.dword{ display:inline-block; white-space:nowrap; }
 .dl{ position:relative; display:inline-block; line-height:.86; }
 .dl--sp{ display:inline-block; width:.32em; }
 .dl::before,.dl::after{ content:attr(data-ch); position:absolute; left:0; top:0; width:100%;
@@ -460,6 +461,8 @@ ol,ul{ list-style:none; }
   .lbrow{ grid-template-columns:40px 38px 1fr auto; gap:8px; }
   .lbrow__val{ font-size:24px; }
   .players{ grid-template-columns:1fr; }
+  .block__head{ gap:10px; }
+  #mapTitle{ white-space:nowrap; font-size:clamp(12px,4.2vw,20px); letter-spacing:-.02em; }
   .fab{ width:60px; height:60px; }
   .sidepanel{ border-left:none; border-top:4px solid var(--ink); height:92%; animation:slideup .24s cubic-bezier(.2,.9,.2,1); }
   .panelwrap{ align-items:flex-end; }
