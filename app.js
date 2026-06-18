@@ -575,7 +575,7 @@
 
     const card = (idx, num, label, opts = {}) => `
       <div class="stat ${opts.cls || ""}" data-idx="${idx}">
-        <div class="stat__num ${opts.purple ? "stat__num--p" : ""} ${opts.drunk ? "drunk drunk--soft" : ""}" ${opts.drunk ? `data-text="${num}"` : ""}>${num}</div>
+        <div class="stat__num ${opts.purple ? "stat__num--p" : ""} ${opts.drunk ? "drunk drunk--soft" : "trace"}" data-text="${num}">${num}</div>
         <div class="stat__label">${label}</div>
       </div>`;
 
@@ -614,7 +614,7 @@
         <div class="lbrow__rank">${rank}</div>
         ${avatarBox(p, "ava--lb")}
         <div class="lbrow__main">
-          <div class="lbrow__name">${esc(p.name)}</div>
+          <div class="lbrow__name trace" data-text="${esc(p.name)}">${esc(p.name)}</div>
           <div class="lbrow__bar"><span class="lbrow__fill" style="inset:0 ${100 - pct}% 0 0"></span></div>
         </div>
         <div class="lbrow__val">${v}<small>${unit}</small></div>
@@ -671,7 +671,7 @@
         <div class="pcard__top">
           ${avatarBox(p, "ava--card")}
           <div class="pcard__id">
-            <div class="pcard__name">${esc(p.name)}</div>
+            <div class="pcard__name trace" data-text="${esc(p.name)}">${esc(p.name)}</div>
             <div class="pcard__rank">${rank} · ${esc(avatarName(p.avatar))}</div>
           </div>
         </div>
@@ -698,7 +698,7 @@
       return `<div class="tile ${tile.cls}">
         <div class="tile__idx">${String(i).padStart(2, "0")}</div>
         <div class="tile__ico">${tileIcon(tile)}</div>
-        <div class="tile__name">${esc(label)}</div>
+        <div class="tile__name trace" data-text="${esc(label)}">${esc(label)}</div>
         <div class="tile__tokens">${tokens}</div>
       </div>`;
     }).join("");
@@ -772,7 +772,7 @@
     $$("[data-i18n]").forEach((el) => {
       const v = t(el.getAttribute("data-i18n"));
       if (el.classList.contains("drunk")) { setDrunk(el, v); }
-      else el.textContent = v;
+      else { el.textContent = v; if (el.classList.contains("trace")) el.setAttribute("data-text", v); }
     });
     $$("[data-i18n-ph]").forEach((el) => (el.placeholder = t(el.getAttribute("data-i18n-ph"))));
     $$(".langswitch__btn").forEach((b) => b.classList.toggle("is-active", b.dataset.lang === state.lang));

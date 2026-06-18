@@ -9,15 +9,31 @@
   --purple:#7c3aed; --purple-bright:#a974ff; --purple-deep:#4413a0; --purple-ghost:#2a1857;
   --red:#ff2b3d; --red-deep:#7a0010;
   --shadow-hard:7px 7px 0 #000; --shadow-pop:6px 6px 0 var(--purple-deep);
-  --font-display:'Anton','Arial Narrow',Impact,sans-serif;
-  --font-black:'Archivo Black','Arial Black',sans-serif;
+  --font-display:'Archivo','Helvetica Neue',Arial,sans-serif;
+  --font-black:'Archivo','Helvetica Neue',Arial,sans-serif;
   --font-mono:'Space Mono',ui-monospace,'SFMono-Regular',monospace;
-  --font-body:system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-body:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;
 }
 
 *{ box-sizing:border-box; margin:0; padding:0; }
 [hidden]{ display:none !important; }
 html{ -webkit-text-size-adjust:100%; }
+
+/* neutral industrial weights — Archivo needs explicit heavy weights.
+   font-stretch condenses the display type (narrower letters, Berghain feel) */
+.brand,.hero__title,.pod__score,.block__title,.stat__num,.lbrow__rank,.lbrow__val,
+.pcard__scorenum,.modal__title,.bigbtn,.bigscore__num,.rankpill b,.tap__plus,.scell__pt,
+.sessionbig__code,.pcount__n,.fxpop,.sidepanel__name{ font-weight:900; font-stretch:72%; }
+.pod__name,.lbrow__name,.pcard__name,.fbtn,.pcard__cheat,.input,.tap__name,.dtag__cat,
+.ghostbtn,.setrow,.tile__name{ font-weight:800; }
+
+/* pencil-trace outline ghosts — light, just offset lines (no blur) */
+.trace{ position:relative; }
+.trace::before,.trace::after{ content:attr(data-text); position:absolute; left:0; top:0; width:100%;
+  color:transparent; pointer-events:none; z-index:-1; white-space:inherit; letter-spacing:inherit; }
+.trace::after{ -webkit-text-stroke:1px var(--purple-bright); transform:translate(.06em,.05em); opacity:.5; }
+.trace::before{ -webkit-text-stroke:1px var(--purple-deep); transform:translate(-.05em,-.045em); opacity:.32; }
+@media (prefers-reduced-motion:reduce){ }
 body{ font-family:var(--font-body); background:var(--bg); color:var(--ink); min-height:100vh;
   overflow-x:hidden; position:relative; line-height:1.3; -webkit-font-smoothing:antialiased; }
 button{ font-family:inherit; cursor:pointer; color:inherit; border:none; background:none; }
@@ -39,7 +55,7 @@ ol,ul{ list-style:none; }
    DRUNK DOUBLE-VISION — per letter, far ghosts, size disproportion
    ============================================================ */
 .drunk{ display:inline-block; }
-.dl{ position:relative; display:inline-block; line-height:.82; }
+.dl{ position:relative; display:inline-block; line-height:.86; }
 .dl--sp{ display:inline-block; width:.32em; }
 .dl::before,.dl::after{ content:attr(data-ch); position:absolute; left:0; top:0; width:100%;
   pointer-events:none; z-index:-1; }
@@ -62,7 +78,7 @@ ol,ul{ list-style:none; }
   border-bottom:3px solid var(--ink); }
 .topbar__left{ display:flex; align-items:center; gap:14px; min-width:0; }
 .topbar__right{ display:flex; align-items:center; gap:10px; }
-.brand{ font-family:var(--font-display); font-size:clamp(26px,4.4vw,40px); letter-spacing:.04em;
+.brand{ font-family:var(--font-display); font-size:clamp(24px,4.2vw,38px); letter-spacing:-.015em;
   line-height:.9; text-transform:uppercase; }
 
 .sessiontag{ display:inline-flex; align-items:center; gap:8px; font-family:var(--font-mono);
@@ -109,8 +125,8 @@ ol,ul{ list-style:none; }
 .hero__inner{ position:relative; text-align:center; padding:clamp(22px,5vw,52px) 16px clamp(20px,4vw,40px);
   max-width:1100px; margin:0 auto; }
 .hero__sign{ position:relative; display:inline-block; margin-bottom:18px; }
-.hero__title{ font-family:var(--font-display); font-size:clamp(38px,9vw,108px); line-height:1.04;
-  letter-spacing:.005em; text-transform:uppercase; margin:6px auto 16px; max-width:15ch;
+.hero__title{ font-family:var(--font-display); font-size:clamp(32px,7vw,82px); line-height:1.0;
+  letter-spacing:-.02em; text-transform:uppercase; margin:6px auto 16px; max-width:16ch;
   animation:heroSway 11s ease-in-out infinite; }
 @keyframes heroSway{ 0%,100%{ transform:skewX(0deg) } 50%{ transform:skewX(-1.2deg) } }
 .hero__sub{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; align-items:center; }
@@ -137,8 +153,8 @@ ol,ul{ list-style:none; }
   border-bottom:3px solid var(--ink); padding-bottom:8px; margin-bottom:18px; width:100%; }
 .block__head--toggle{ cursor:pointer; text-align:left; background:none; border-top:none; border-left:none; border-right:none; }
 .block__head--toggle:hover .chev{ color:var(--purple-bright); }
-.block__title{ font-family:var(--font-display); font-size:clamp(24px,4.4vw,46px); text-transform:uppercase;
-  letter-spacing:.01em; line-height:1.06; }
+.block__title{ font-family:var(--font-display); font-size:clamp(22px,4vw,40px); text-transform:uppercase;
+  letter-spacing:-.01em; line-height:1.06; }
 .block__tag{ font-family:var(--font-mono); font-size:12px; color:var(--ink-faint); letter-spacing:.14em;
   text-transform:uppercase; white-space:nowrap; }
 .block__tools{ display:flex; align-items:center; gap:12px; }

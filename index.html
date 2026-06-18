@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+<meta name="theme-color" content="#0b0a0d" />
+<title>RECOOORD — libertà è partecipazione</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230b0a0d'/%3E%3Cg fill='none' stroke='%23a974ff' stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M13 31a19 15 0 0 1 38 0z'/%3E%3Cpath d='M19 33c-1 7 2 10-1 17M27 35c-1 8 1 12 0 19M37 35c1 8-1 12 0 19M45 33c1 7-2 10 1 17'/%3E%3C/g%3E%3C/svg%3E" />
+</head>
+<body>
+
+<div class="bg-grid" aria-hidden="true"></div>
+<div class="bg-noise" aria-hidden="true"></div>
+
+<!-- ===================== TOP BAR ===================== -->
+<header class="topbar">
+  <div class="topbar__left">
+    <div class="brand drunk" data-text="RECOOORD" id="brandLogo">RECOOORD</div>
+    <button class="sessiontag" id="sessionBtn" type="button" title="Session">
+      <span class="sessiontag__live" aria-hidden="true"></span>
+      <span id="sessionCode">REC—00666</span>
+    </button>
+  </div>
+  <div class="topbar__right">
+    <div class="langswitch" id="langSwitch" role="group" aria-label="Language">
+      <button class="langswitch__btn is-active" data-lang="it" type="button">IT</button>
+      <button class="langswitch__btn" data-lang="en" type="button">EN</button>
+    </div>
+    <button class="iconbtn" id="settingsBtn" type="button" aria-label="Settings" data-ic="gear"></button>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero__stripe hazard" aria-hidden="true"></div>
+  <div class="hero__inner">
+    <div class="hero__sign">
+      <span class="stamp" data-i18n="heroKicker">SCOREBOARD UFFICIALE</span>
+      <span class="bolt bolt--tl"></span><span class="bolt bolt--tr"></span>
+      <span class="bolt bolt--bl"></span><span class="bolt bolt--br"></span>
+    </div>
+    <h1 class="hero__title drunk" data-text="LIBERTÀ È PARTECIPAZIONE">LIBERTÀ È PARTECIPAZIONE</h1>
+    <p class="hero__sub">
+      <span class="chip trace" data-i18n="players">Giocatori</span><span class="chip">·</span>
+      <span class="chip trace" data-i18n="ranking">Classifica</span><span class="chip">·</span>
+      <span class="chip trace" data-i18n="records">Record</span><span class="chip">·</span>
+      <span class="chip trace" data-i18n="map">Mappa</span>
+    </p>
+    <div class="podium" id="podium" aria-label="Top 3"></div>
+  </div>
+  <div class="hero__stripe hazard" aria-hidden="true"></div>
+</section>
+
+<main class="wrap">
+
+  <!-- ===================== STATS (collapsible) ===================== -->
+  <section class="block" id="statsBlock">
+    <button class="block__head block__head--toggle" id="statsToggle" type="button" aria-expanded="true">
+      <h2 class="block__title drunk drunk--soft" data-text="STATISTICHE" data-i18n="stats">STATISTICHE</h2>
+      <span class="block__tools">
+        <span class="block__tag" id="statsTag">DATA / LIVE</span>
+        <span class="chev" data-ic="chevron" aria-hidden="true"></span>
+      </span>
+    </button>
+    <div class="collapse" id="statsCollapse">
+      <div class="stats" id="stats"></div>
+    </div>
+  </section>
+
+  <!-- ===================== LEADERBOARD ===================== -->
+  <section class="block" id="leaderboardBlock">
+    <div class="block__head">
+      <h2 class="block__title drunk drunk--soft" data-text="CLASSIFICA" data-i18n="ranking">CLASSIFICA</h2>
+      <span class="block__tag" id="lbCountTag">—</span>
+    </div>
+    <div class="filters">
+      <div class="filters__row" id="catFilter" role="tablist" aria-label="Category">
+        <button class="fbtn is-active" data-cat="overall" data-i18n="overall">Overall</button>
+        <button class="fbtn" data-cat="sucarra" data-i18n="sucarra">Sucarra</button>
+        <button class="fbtn" data-cat="beer" data-i18n="beer">Beer</button>
+        <button class="fbtn" data-cat="shot" data-i18n="shot">Shot</button>
+        <button class="fbtn" data-cat="cocktail" data-i18n="cocktail">Cocktail</button>
+      </div>
+      <div class="filters__row" id="timeFilter" role="tablist" aria-label="Timeframe">
+        <button class="fbtn fbtn--ghost" data-time="tonight" data-i18n="tonight">Tonight</button>
+        <button class="fbtn fbtn--ghost" data-time="week" data-i18n="week">This Week</button>
+        <button class="fbtn fbtn--ghost is-active" data-time="all" data-i18n="alltime">All Time</button>
+      </div>
+    </div>
+    <ol class="leaderboard" id="leaderboard"></ol>
+  </section>
+
+  <!-- ===================== PLAYERS ===================== -->
+  <section class="block" id="playersBlock">
+    <div class="block__head">
+      <h2 class="block__title drunk drunk--soft" data-text="GIOCATORI" data-i18n="players">GIOCATORI</h2>
+      <span class="block__tag" id="playersCountTag">0</span>
+    </div>
+    <div class="players" id="players"></div>
+    <div class="empty" id="playersEmpty" hidden>
+      <span class="empty__big" data-ic="plus"></span>
+      <span data-i18n="emptyPlayers">Nessun giocatore. Premi + per iniziare.</span>
+    </div>
+  </section>
+
+  <!-- ===================== MAP ===================== -->
+  <section class="block" id="mapBlock">
+    <div class="block__head">
+      <h2 class="block__title drunk" data-text="LA FATTORIA DEGLI ANIMALETTI" id="mapTitle">LA FATTORIA DEGLI ANIMALETTI</h2>
+      <span class="block__tag" data-i18n="map">MAP</span>
+    </div>
+    <p class="map__hint" data-i18n="mapHint">Più punti = più avanti. I cheater finiscono al Muro della Vergogna.</p>
+    <div class="map" id="map"></div>
+  </section>
+
+  <footer class="footer">
+    <span class="tag" data-i18n="footer">RECOOORD — libertà è partecipazione</span>
+    <span class="tag tag--mono" id="footerStamp">EST. 2026 · LOCAL ONLY</span>
+  </footer>
+</main>
+
+<!-- ===================== FLOATING + ===================== -->
+<button class="fab" id="fab" type="button" aria-label="Add player">
+  <span class="fab__plus" data-ic="plus"></span>
+</button>
+
+<!-- ===================== ADD PLAYER MODAL ===================== -->
+<div class="modal" id="addModal" hidden>
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__card panel" role="dialog" aria-modal="true" aria-labelledby="addTitle">
+    <span class="bolt bolt--tl"></span><span class="bolt bolt--tr"></span>
+    <span class="bolt bolt--bl"></span><span class="bolt bolt--br"></span>
+    <div class="modal__head">
+      <h3 class="modal__title drunk drunk--soft" data-text="NUOVO GIOCATORE" id="addTitle" data-i18n="newPlayer">NUOVO GIOCATORE</h3>
+      <button class="iconbtn" data-close type="button" aria-label="Close" data-ic="close"></button>
+    </div>
+    <div class="modal__body">
+      <div class="avatarpick" id="avatarPreview" title="random creature"></div>
+      <input class="input" id="nameInput" type="text" maxlength="20" autocomplete="off" placeholder="Nome" data-i18n-ph="namePh" />
+      <button class="bigbtn bigbtn--purple" id="addConfirm" type="button" data-i18n="add">AGGIUNGI</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SESSION MODAL ===================== -->
+<div class="modal" id="sessionModal" hidden>
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__card panel" role="dialog" aria-modal="true" aria-labelledby="sesTitle">
+    <span class="bolt bolt--tl"></span><span class="bolt bolt--tr"></span>
+    <span class="bolt bolt--bl"></span><span class="bolt bolt--br"></span>
+    <div class="modal__head">
+      <h3 class="modal__title drunk drunk--soft" data-text="SESSION" id="sesTitle" data-i18n="session">SESSIONE</h3>
+      <button class="iconbtn" data-close type="button" aria-label="Close" data-ic="close"></button>
+    </div>
+    <div class="modal__body modal__body--col">
+      <div class="sessionbig">
+        <span class="sessionbig__live" data-ic="live" aria-hidden="true"></span>
+        <span class="sessionbig__lbl" data-i18n="sessionCode">CODICE SESSIONE</span>
+        <span class="sessionbig__code drunk drunk--soft" data-text="REC—00666" id="sessionBig">REC—00666</span>
+        <button class="ghostbtn ghostbtn--row" id="copySession" type="button">
+          <span data-ic="copy" aria-hidden="true"></span><span class="copytxt" data-i18n="copy">Copia</span>
+        </button>
+        <span class="sessionstatus" id="sessionStatus"></span>
+      </div>
+      <p class="sessionhint" data-i18n="sessionHint">Stesso codice = stessa sessione. Condividilo per giocare insieme.</p>
+      <div class="setrow setrow--col">
+        <span class="setrow__hint" data-i18n="joinOther">ENTRA IN UN'ALTRA SESSIONE</span>
+        <div class="joinrow">
+          <input class="input input--code" id="sessionInput" type="text" maxlength="8" autocomplete="off" placeholder="00666" />
+          <button class="bigbtn bigbtn--purple joinrow__btn" id="joinSession" type="button" data-i18n="join">ENTRA</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PLAYER DETAIL PANEL ===================== -->
+<div class="panelwrap" id="detailPanel" hidden>
+  <div class="modal__backdrop" data-close-panel></div>
+  <aside class="sidepanel" role="dialog" aria-modal="true" aria-labelledby="detailName">
+    <div class="sidepanel__head">
+      <div class="sidepanel__id">
+        <span class="ava ava--xl" id="detailAvatar"></span>
+        <div>
+          <h3 class="sidepanel__name" id="detailName">—</h3>
+          <span class="tag tag--mono" id="detailTag">REC—0000</span>
+        </div>
+      </div>
+      <button class="iconbtn" data-close-panel type="button" aria-label="Close" data-ic="close"></button>
+    </div>
+
+    <div class="sidepanel__score">
+      <div class="bigscore">
+        <span class="bigscore__num drunk" id="detailScore" data-text="0">0</span>
+        <span class="bigscore__label" data-i18n="score">SCORE</span>
+      </div>
+      <div class="rankpill"><span data-i18n="rank">RANK</span> <b id="detailRank">#—</b></div>
+    </div>
+
+    <div class="taps" id="taps"></div>
+
+    <div class="sidepanel__feed">
+      <div class="sidepanel__feedhead">
+        <span data-i18n="lastActions">ULTIME AZIONI</span>
+        <span class="tag tag--mono" id="feedCount">0</span>
+      </div>
+      <ul class="feed" id="detailFeed"></ul>
+    </div>
+
+    <div class="sidepanel__foot">
+      <button class="ghostbtn ghostbtn--danger" id="detailCheat" type="button" data-i18n="cheating">CHEATING</button>
+      <button class="ghostbtn ghostbtn--row" id="detailDelete" type="button"><span data-ic="trash" aria-hidden="true"></span><span data-i18n="delete">ELIMINA</span></button>
+    </div>
+  </aside>
+</div>
+
+<!-- ===================== SETTINGS MODAL ===================== -->
+<div class="modal" id="settingsModal" hidden>
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__card panel" role="dialog" aria-modal="true" aria-labelledby="setTitle">
+    <div class="modal__head">
+      <h3 class="modal__title drunk drunk--soft" data-text="IMPOSTAZIONI" id="setTitle" data-i18n="settings">IMPOSTAZIONI</h3>
+      <button class="iconbtn" data-close type="button" aria-label="Close" data-ic="close"></button>
+    </div>
+    <div class="modal__body modal__body--col">
+      <div class="setrow">
+        <span data-i18n="language">Lingua</span>
+        <div class="langswitch langswitch--inline" id="langSwitch2">
+          <button class="langswitch__btn is-active" data-lang="it" type="button">IT</button>
+          <button class="langswitch__btn" data-lang="en" type="button">EN</button>
+        </div>
+      </div>
+      <div class="setrow setrow--col">
+        <span class="setrow__hint" data-i18n="scoringTitle">PUNTEGGI</span>
+        <div class="scoringgrid" id="scoringGrid"></div>
+      </div>
+      <button class="bigbtn bigbtn--ghost" id="resetDemo" type="button" data-i18n="resetDemo">RESET DEMO DATA</button>
+      <button class="bigbtn bigbtn--danger" id="wipeAll" type="button" data-i18n="wipeAll">CANCELLA TUTTO</button>
+    </div>
+  </div>
+</div>
+
+<div class="fx" id="fx" aria-hidden="true"></div>
+<script src="app.js"></script>
+</body>
+</html>
